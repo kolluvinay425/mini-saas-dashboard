@@ -2,7 +2,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api/authApi";
 import { useState } from "react";
+
 import Notification from "../components/Notification";
+import AuthLayout from "../components/auth/AuthLayout";
 
 function Login() {
   const navigate = useNavigate();
@@ -32,69 +34,12 @@ function Login() {
   };
 
   return (
-    <div
-      className="
-        min-h-screen
-        flex
-        items-center
-        justify-center
-        bg-gray-100
-        px-4
-      "
+    <AuthLayout
+      title="Welcome back"
+      description="Sign in to continue to your dashboard."
     >
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="
-          bg-white
-          p-8
-          rounded-lg
-          shadow
-          w-full
-          max-w-md
-        "
-      >
-        {/* Brand */}
-        <div className="text-center mb-6">
-          <h1
-            className="
-              text-3xl
-              font-bold
-              text-gray-800
-            "
-          >
-            Mini SaaS Dashboard
-          </h1>
-
-          <p
-            className="
-              text-gray-500
-              mt-2
-            "
-          >
-            Manage your projects, teams and budgets in one place.
-          </p>
-        </div>
-
-        <h2
-          className="
-            text-xl
-            font-semibold
-            mb-4
-          "
-        >
-          Welcome back
-        </h2>
-
-        <p
-          className="
-            text-gray-500
-            mb-6
-          "
-        >
-          Sign in to continue to your dashboard.
-        </p>
-
-        <Notification message={error} />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Notification message={error} type="error" />
 
         <label
           className="
@@ -125,6 +70,7 @@ function Login() {
 
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+
               message: "Enter a valid email",
             },
           })}
@@ -163,6 +109,7 @@ function Login() {
 
             minLength: {
               value: 6,
+
               message: "Password must be at least 6 characters",
             },
           })}
@@ -199,19 +146,8 @@ function Login() {
         >
           Don't have an account? Create account
         </p>
-
-        <p
-          className="
-            text-center
-            text-gray-400
-            text-sm
-            mt-6
-          "
-        >
-          © 2026 Mini SaaS Dashboard
-        </p>
       </form>
-    </div>
+    </AuthLayout>
   );
 }
 

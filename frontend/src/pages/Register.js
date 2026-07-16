@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { registerUser } from "../api/authApi";
 import Notification from "../components/Notification";
+import AuthLayout from "../components/auth/AuthLayout";
 
 function Register() {
   const navigate = useNavigate();
@@ -37,68 +38,11 @@ function Register() {
   };
 
   return (
-    <div
-      className="
-        min-h-screen
-        flex
-        items-center
-        justify-center
-        bg-gray-100
-        px-4
-      "
+    <AuthLayout
+      title="Create your account"
+      description="Join the dashboard and manage your team projects."
     >
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="
-          bg-white
-          p-8
-          rounded-lg
-          shadow
-          w-full
-          max-w-md
-        "
-      >
-        {/* Brand */}
-        <div className="text-center mb-6">
-          <h1
-            className="
-              text-3xl
-              font-bold
-              text-gray-800
-            "
-          >
-            Mini SaaS Dashboard
-          </h1>
-
-          <p
-            className="
-              text-gray-500
-              mt-2
-            "
-          >
-            Create your account and start managing projects.
-          </p>
-        </div>
-
-        <h2
-          className="
-            text-xl
-            font-semibold
-            mb-2
-          "
-        >
-          Create your account
-        </h2>
-
-        <p
-          className="
-            text-gray-500
-            mb-6
-          "
-        >
-          Join the dashboard and manage your team projects.
-        </p>
-
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Notification message={error} type="error" />
 
         <Notification message={success} type="success" />
@@ -164,6 +108,7 @@ function Register() {
 
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+
               message: "Enter a valid email",
             },
           })}
@@ -202,6 +147,7 @@ function Register() {
 
             minLength: {
               value: 6,
+
               message: "Minimum 6 characters",
             },
           })}
@@ -238,19 +184,8 @@ function Register() {
         >
           Already have an account? Login
         </p>
-
-        <p
-          className="
-            text-center
-            text-gray-400
-            text-sm
-            mt-6
-          "
-        >
-          © 2026 Mini SaaS Dashboard
-        </p>
       </form>
-    </div>
+    </AuthLayout>
   );
 }
 
