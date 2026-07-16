@@ -2,7 +2,12 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 function ProjectModal({ isOpen, onClose, onSubmit, selectedProject }) {
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     if (selectedProject) {
@@ -60,7 +65,9 @@ function ProjectModal({ isOpen, onClose, onSubmit, selectedProject }) {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <input
-            {...register("name")}
+            {...register("name", {
+              required: "Project name is required",
+            })}
             placeholder="Project name"
             className="
             w-full
@@ -68,8 +75,12 @@ function ProjectModal({ isOpen, onClose, onSubmit, selectedProject }) {
             rounded
             px-3
             py-2
-          "
+    "
           />
+
+          {errors.name && (
+            <p className="text-red-500 text-sm">{errors.name.message}</p>
+          )}
 
           <select
             {...register("status")}
@@ -90,21 +101,26 @@ function ProjectModal({ isOpen, onClose, onSubmit, selectedProject }) {
 
           <input
             type="date"
-            {...register("deadline")}
-            onKeyDown={(e) => e.preventDefault()}
-            min="2000-01-01"
-            max="2100-12-31"
+            {...register("deadline", {
+              required: "Deadline is required",
+            })}
             className="
             w-full
             border
             rounded
             px-3
             py-2
-        "
+            "
           />
 
+          {errors.deadline && (
+            <p className="text-red-500 text-sm">{errors.deadline.message}</p>
+          )}
+
           <input
-            {...register("assignedTo")}
+            {...register("assignedTo", {
+              required: "Team member is required",
+            })}
             placeholder="Assigned team member"
             className="
             w-full
@@ -114,10 +130,18 @@ function ProjectModal({ isOpen, onClose, onSubmit, selectedProject }) {
             py-2
         "
           />
-
+          {errors.assignedTo && (
+            <p className="text-red-500 text-sm">{errors.assignedTo.message}</p>
+          )}
           <input
             type="number"
-            {...register("budget")}
+            {...register("budget", {
+              required: "Budget is required",
+              min: {
+                value: 1,
+                message: "Budget must be greater than 0",
+              },
+            })}
             placeholder="Budget"
             className="
             w-full
@@ -126,6 +150,10 @@ function ProjectModal({ isOpen, onClose, onSubmit, selectedProject }) {
             px-3
             py-2"
           />
+
+          {errors.budget && (
+            <p className="text-red-500 text-sm">{errors.budget.message}</p>
+          )}
 
           <div
             className="

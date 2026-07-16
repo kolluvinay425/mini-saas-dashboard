@@ -30,14 +30,34 @@ function Dashboard() {
 
   const [loading, setLoading] = useState(false);
 
+  const [error, setError] = useState("");
+
+  const showError = (message) => {
+    setError(message);
+
+    setTimeout(() => {
+      setError("");
+    }, 3000);
+  };
+
   const loadProjects = async () => {
-    const data = await fetchProjects({
-      search,
+    try {
+      setLoading(true);
 
-      status,
-    });
+      const data = await fetchProjects({
+        search,
+        status,
+      });
 
-    setProjects(data);
+      setProjects(data);
+    } catch (error) {
+      console.error(error);
+      showError(
+        error.response?.data?.message || "Unable to connect to the server.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -57,15 +77,24 @@ function Dashboard() {
   };
 
   const handleSubmit = async (data) => {
-    if (selectedProject) {
-      await updateProject(selectedProject.id, data);
-    } else {
-      await createProject(data);
+    try {
+      if (selectedProject) {
+        await updateProject(selectedProject.id, data);
+      } else {
+        await createProject(data);
+      }
+
+      setIsModalOpen(false);
+      setSelectedProject(null);
+
+      await loadProjects();
+    } catch (error) {
+      console.error(error);
+
+      showError(
+        error.response?.data?.message || "Unable to connect to the server.",
+      );
     }
-
-    setIsModalOpen(false);
-
-    loadProjects();
   };
 
   const handleDeleteRequest = (id) => {
@@ -76,17 +105,18 @@ function Dashboard() {
 
   const handleDelete = async () => {
     try {
-      setLoading(true);
-
       await deleteProject(deleteId);
 
       setDeleteModal(false);
-
       setDeleteId(null);
 
-      loadProjects();
-    } finally {
-      setLoading(false);
+      await loadProjects();
+    } catch (error) {
+      console.error(error);
+
+      showError(
+        error.response?.data?.message || "Unable to connect to the server.",
+      );
     }
   };
 
@@ -98,6 +128,29 @@ function Dashboard() {
             p-8
         "
     >
+      {error && (
+        <div
+          className="
+            fixed
+            top-6
+            right-6
+            z-50
+            max-w-sm
+            rounded-lg
+            border
+            border-red-200
+            bg-red-50
+            px-4
+            py-3
+            text-red-700
+            shadow-lg
+            transition-all
+            duration-300
+            "
+        >
+          {error}
+        </div>
+      )}
       <h1
         className="
                 text-3xl
@@ -122,13 +175,6 @@ function Dashboard() {
         <StatusFilter status={status} setStatus={setStatus} />
       </div>
 
-      <ProjectModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleSubmit}
-        selectedProject={selectedProject}
-      />
-
       <button
         onClick={handleCreate}
         className="
@@ -148,7 +194,23 @@ function Dashboard() {
         onEdit={handleEdit}
         onDelete={handleDeleteRequest}
       />
+      <ProjectModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleSubmit}
+        selectedProject={selectedProject}
+      />
 
+      {loading && (
+        <div
+          className="
+          text-red-1200
+          mb-4
+        "
+        >
+          Loading projects...
+        </div>
+      )}
       <ConfirmDeleteModal
         isOpen={deleteModal}
         onClose={() => setDeleteModal(false)}
