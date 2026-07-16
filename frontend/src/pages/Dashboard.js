@@ -4,8 +4,14 @@ import ProjectTable from "../components/ProjectTable";
 import SearchBar from "../components/SearchBar";
 import StatusFilter from "../components/StatusFilter";
 import ProjectModal from "../components/ProjectModal";
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 
-import { fetchProjects, createProject, updateProject } from "../api/projectApi";
+import {
+  fetchProjects,
+  createProject,
+  updateProject,
+  deleteProject,
+} from "../api/projectApi";
 
 function Dashboard() {
   const [projects, setProjects] = useState([]);
@@ -17,6 +23,12 @@ function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [selectedProject, setSelectedProject] = useState(null);
+
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const [deleteId, setDeleteId] = useState(null);
+
+  const [loading, setLoading] = useState(false);
 
   const loadProjects = async () => {
     const data = await fetchProjects({
@@ -56,6 +68,28 @@ function Dashboard() {
     loadProjects();
   };
 
+  const handleDeleteRequest = (id) => {
+    setDeleteId(id);
+
+    setDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
+    try {
+      setLoading(true);
+
+      await deleteProject(deleteId);
+
+      setDeleteModal(false);
+
+      setDeleteId(null);
+
+      loadProjects();
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       className="
@@ -73,7 +107,7 @@ function Dashboard() {
       >
         Mini SaaS Dashboard
       </h1>
-
+      {/* {loading && <p className="text-gray-600 mb-4">Deleting project...</p>} */}
       <div
         className="
                 flex
@@ -112,7 +146,13 @@ function Dashboard() {
       <ProjectTable
         projects={projects}
         onEdit={handleEdit}
-        onDelete={(id) => console.log(id)}
+        onDelete={handleDeleteRequest}
+      />
+
+      <ConfirmDeleteModal
+        isOpen={deleteModal}
+        onClose={() => setDeleteModal(false)}
+        onConfirm={handleDelete}
       />
     </div>
   );
