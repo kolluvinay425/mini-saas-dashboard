@@ -6,8 +6,12 @@ import { useState } from "react";
 import Notification from "../components/Notification";
 import AuthLayout from "../components/auth/AuthLayout";
 
+import { useAuth } from "../context/AuthContext";
+
 function Login() {
   const navigate = useNavigate();
+
+  const { login } = useAuth();
 
   const [error, setError] = useState("");
 
@@ -23,9 +27,7 @@ function Login() {
     try {
       const response = await loginUser(data);
 
-      localStorage.setItem("token", response.token);
-
-      localStorage.setItem("user", JSON.stringify(response.user));
+      login(response.user, response.token);
 
       navigate("/dashboard");
     } catch (error) {
