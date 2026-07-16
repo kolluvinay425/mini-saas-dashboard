@@ -8,16 +8,18 @@ import {
   removeProject,
 } from "../controllers/project.controller.js";
 
+import authMiddleware from "../middleware/auth.middleware.js";
+
 const projectRoutes = express.Router();
 
-projectRoutes.get("/", getAllProjects);
+projectRoutes.get("/", authMiddleware, getAllProjects);
 
-projectRoutes.get("/:id", getSingleProject);
+projectRoutes.get("/:id", authMiddleware, getSingleProject);
 
-projectRoutes.post("/", addProject);
+projectRoutes.post("/", authMiddleware, addProject);
 
-projectRoutes.put("/:id", editProject);
+projectRoutes.put("/:id", authMiddleware, editProject);
 
-projectRoutes.delete("/:id", removeProject);
+projectRoutes.delete("/:id", authMiddleware, removeProject);
 
 export default projectRoutes;
