@@ -1,10 +1,7 @@
-import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  const token = localStorage.getItem("token");
-
-  return token ? <Dashboard /> : <Login />;
+  return <AppRoutes />;
 }
 
 export default App;

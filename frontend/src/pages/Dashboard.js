@@ -1,8 +1,5 @@
-import { useState } from "react";
-
 import DashboardStats from "../components/dashboard/DashboardStats";
 import DashboardFilters from "../components/dashboard/DashboardFilters";
-import DashboardError from "../components/dashboard/DashboardError";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 
 import ProjectTable from "../components/ProjectTable";
@@ -10,12 +7,10 @@ import ProjectModal from "../components/ProjectModal";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 
 import useProjects from "../hooks/useProjects";
-
+import Notification from "../components/Notification";
 function Dashboard() {
   const {
     projects,
-    loading,
-    error,
     search,
     setSearch,
     status,
@@ -30,14 +25,14 @@ function Dashboard() {
     selectedProject,
     deleteModal,
     setDeleteModal,
+    notification,
   } = useProjects();
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <DashboardHeader />
 
-      <DashboardError error={error} />
-
+      <Notification message={notification.message} type={notification.type} />
       <DashboardFilters
         search={search}
         setSearch={setSearch}

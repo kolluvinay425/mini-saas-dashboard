@@ -1,13 +1,16 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../api/authApi";
-import { useState } from "react";
+
+import { registerUser } from "../api/authApi";
 import Notification from "../components/Notification";
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
 
   const [error, setError] = useState("");
+
+  const [success, setSuccess] = useState("");
 
   const {
     register,
@@ -18,16 +21,18 @@ function Login() {
   const onSubmit = async (data) => {
     setError("");
 
+    setSuccess("");
+
     try {
-      const response = await loginUser(data);
+      await registerUser(data);
 
-      localStorage.setItem("token", response.token);
+      setSuccess("Account created successfully");
 
-      localStorage.setItem("user", JSON.stringify(response.user));
-
-      navigate("/dashboard");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
     } catch (error) {
-      setError(error.response?.data?.message || "Login failed");
+      setError(error.response?.data?.message || "Registration failed");
     }
   };
 
@@ -71,7 +76,7 @@ function Login() {
               mt-2
             "
           >
-            Manage your projects, teams and budgets in one place.
+            Create your account and start managing projects.
           </p>
         </div>
 
@@ -79,10 +84,10 @@ function Login() {
           className="
             text-xl
             font-semibold
-            mb-4
+            mb-2
           "
         >
-          Welcome back
+          Create your account
         </h2>
 
         <p
@@ -91,10 +96,44 @@ function Login() {
             mb-6
           "
         >
-          Sign in to continue to your dashboard.
+          Join the dashboard and manage your team projects.
         </p>
 
-        <Notification message={error} />
+        <Notification message={error} type="error" />
+
+        <Notification message={success} type="success" />
+
+        <label
+          className="
+            block
+            text-sm
+            font-medium
+            mb-1
+          "
+        >
+          Name
+        </label>
+
+        <input
+          placeholder="Enter your name"
+          className="
+            w-full
+            border
+            p-2
+            rounded-lg
+            mb-2
+            focus:outline-none
+            focus:ring-2
+            focus:ring-blue-500
+          "
+          {...register("name", {
+            required: "Name is required",
+          })}
+        />
+
+        {errors.name && (
+          <p className="text-red-600 text-sm mb-3">{errors.name.message}</p>
+        )}
 
         <label
           className="
@@ -147,7 +186,7 @@ function Login() {
 
         <input
           type="password"
-          placeholder="Enter your password"
+          placeholder="Create a password"
           className="
             w-full
             border
@@ -163,13 +202,13 @@ function Login() {
 
             minLength: {
               value: 6,
-              message: "Password must be at least 6 characters",
+              message: "Minimum 6 characters",
             },
           })}
         />
 
         {errors.password && (
-          <p className="text-red-600 text-sm mb-3">{errors.password.message}</p>
+          <p className="text-red-600 text-sm mb-4">{errors.password.message}</p>
         )}
 
         <button
@@ -184,7 +223,7 @@ function Login() {
             transition
           "
         >
-          Login
+          Create Account
         </button>
 
         <p
@@ -195,9 +234,9 @@ function Login() {
             cursor-pointer
             hover:underline
           "
-          onClick={() => navigate("/register")}
+          onClick={() => navigate("/login")}
         >
-          Don't have an account? Create account
+          Already have an account? Login
         </p>
 
         <p
@@ -215,4 +254,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

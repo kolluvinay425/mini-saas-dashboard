@@ -10,6 +10,11 @@ import {
 function useProjects() {
   const [projects, setProjects] = useState([]);
 
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "",
+  });
+
   const [search, setSearch] = useState("");
 
   const [status, setStatus] = useState("");
@@ -26,11 +31,17 @@ function useProjects() {
 
   const [error, setError] = useState("");
 
-  const showError = (message) => {
-    setError(message);
+  const showNotification = (message, type = "success") => {
+    setNotification({
+      message,
+      type,
+    });
 
     setTimeout(() => {
-      setError("");
+      setNotification({
+        message: "",
+        type: "",
+      });
     }, 3000);
   };
 
@@ -45,8 +56,9 @@ function useProjects() {
 
       setProjects(data);
     } catch (error) {
-      showError(
-        error.response?.data?.message || "Unable to connect to server.",
+      showNotification(
+        error.response?.data?.message || "Unable to connect to the server.",
+        "error",
       );
     } finally {
       setLoading(false);
@@ -73,8 +85,12 @@ function useProjects() {
     try {
       if (selectedProject) {
         await updateProject(selectedProject.id, data);
+
+        showNotification("Project updated successfully.", "success");
       } else {
         await createProject(data);
+
+        showNotification("Project created successfully.", "success");
       }
 
       setIsModalOpen(false);
@@ -83,7 +99,10 @@ function useProjects() {
 
       loadProjects();
     } catch (error) {
-      showError(error.response?.data?.message || "Unable to save project.");
+      showNotification(
+        error.response?.data?.message || "Unable to connect to the server.",
+        "error",
+      );
     }
   };
 
@@ -97,13 +116,18 @@ function useProjects() {
     try {
       await deleteProject(deleteId);
 
+      showNotification("Project deleted successfully.", "success");
+
       setDeleteModal(false);
 
       setDeleteId(null);
 
       loadProjects();
     } catch (error) {
-      showError(error.response?.data?.message || "Unable to delete project.");
+      showNotification(
+        error.response?.data?.message || "Unable to connect to the server.",
+        "error",
+      );
     }
   };
 
@@ -141,6 +165,8 @@ function useProjects() {
     deleteModal,
 
     setDeleteModal,
+
+    notification,
   };
 }
 
