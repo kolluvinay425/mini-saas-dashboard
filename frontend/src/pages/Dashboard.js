@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import ProjectTable from "../components/ProjectTable";
 import SearchBar from "../components/SearchBar";
 import StatusFilter from "../components/StatusFilter";
+import ProjectModal from "../components/ProjectModal";
 
-import { fetchProjects } from "../api/projectApi";
+import { fetchProjects, createProject, updateProject } from "../api/projectApi";
 
 function Dashboard() {
   const [projects, setProjects] = useState([]);
@@ -12,6 +13,10 @@ function Dashboard() {
   const [search, setSearch] = useState("");
 
   const [status, setStatus] = useState("");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [selectedProject, setSelectedProject] = useState(null);
 
   const loadProjects = async () => {
     const data = await fetchProjects({
@@ -26,6 +31,30 @@ function Dashboard() {
   useEffect(() => {
     loadProjects();
   }, [search, status]);
+
+  const handleCreate = () => {
+    setSelectedProject(null);
+
+    setIsModalOpen(true);
+  };
+
+  const handleEdit = (project) => {
+    setSelectedProject(project);
+
+    setIsModalOpen(true);
+  };
+
+  const handleSubmit = async (data) => {
+    if (selectedProject) {
+      await updateProject(selectedProject.id, data);
+    } else {
+      await createProject(data);
+    }
+
+    setIsModalOpen(false);
+
+    loadProjects();
+  };
 
   return (
     <div
@@ -59,9 +88,30 @@ function Dashboard() {
         <StatusFilter status={status} setStatus={setStatus} />
       </div>
 
+      <ProjectModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleSubmit}
+        selectedProject={selectedProject}
+      />
+
+      <button
+        onClick={handleCreate}
+        className="
+        bg-blue-600
+        text-white
+        px-4
+        py-2
+        rounded-lg
+        mb-6
+    "
+      >
+        + Add Project
+      </button>
+
       <ProjectTable
         projects={projects}
-        onEdit={(project) => console.log(project)}
+        onEdit={handleEdit}
         onDelete={(id) => console.log(id)}
       />
     </div>
