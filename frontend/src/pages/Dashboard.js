@@ -5,7 +5,9 @@ import SearchBar from "../components/SearchBar";
 import StatusFilter from "../components/StatusFilter";
 import ProjectModal from "../components/ProjectModal";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
+import StatsCard from "../components/StatsCard";
 
+import { FiFolder, FiCheckCircle, FiClock, FiDollarSign } from "react-icons/fi";
 import {
   fetchProjects,
   createProject,
@@ -188,7 +190,42 @@ function Dashboard() {
       >
         + Add Project
       </button>
+      <div
+        className="
+        grid
+        grid-cols-1
+        sm:grid-cols-2
+        lg:grid-cols-4
+        gap-6
+        mb-8
+    "
+      >
+        <StatsCard
+          title="Total Projects"
+          value={projects.length}
+          icon={<FiFolder />}
+        />
 
+        <StatsCard
+          title="Active"
+          value={projects.filter((p) => p.status === "ACTIVE").length}
+          icon={<FiCheckCircle />}
+        />
+
+        <StatsCard
+          title="On Hold"
+          value={projects.filter((p) => p.status === "ON_HOLD").length}
+          icon={<FiClock />}
+        />
+
+        <StatsCard
+          title="Total Budget"
+          value={`€${projects
+            .reduce((sum, p) => sum + Number(p.budget), 0)
+            .toLocaleString()}`}
+          icon={<FiDollarSign />}
+        />
+      </div>
       <ProjectTable
         projects={projects}
         onEdit={handleEdit}
