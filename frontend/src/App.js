@@ -1,5 +1,7 @@
+import Dashboard from "./pages/Dashboard";
+
 function App() {
-  return <h1 className="text-4xl font-bold text-blue-600">SaaS Dashboard</h1>;
+  return <Dashboard />;
 }
 
 export default App;
