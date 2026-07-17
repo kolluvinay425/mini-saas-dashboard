@@ -417,17 +417,27 @@ touch .env
 
 Add:
 
-````text
-PORT=5000
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=saas_dashboard
-DB_USER=admin
-DB_PASSWORD=password
-JWT_SECRET=my_super_secret_key
-FRONTEND_URL=http://localhost:3000
+## Backend Environment Variables
 
-```
+Create a `.env` file inside the `backend` folder:
+
+````env
+
+PORT=5000
+
+DB_HOST=localhost
+
+DB_PORT=5432
+
+DB_NAME=saas_dashboard
+
+DB_USER=admin
+
+DB_PASSWORD=password
+
+JWT_SECRET=my_super_secret_key
+
+FRONTEND_URL=http://localhost:3000
 
 Start backend:
 
