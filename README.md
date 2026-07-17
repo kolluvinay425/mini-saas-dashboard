@@ -1,14 +1,14 @@
-Mini SaaS Dashboard
+# Mini SaaS Dashboard
 
-A full-stack SaaS project management dashboard built with React, Node.js, Express, PostgreSQL, and Docker.
+A full-stack SaaS project management dashboard built with **React, Node.js, Express, PostgreSQL, and Docker**.
 
 The application allows users to create an account, authenticate using JWT, and manage projects through a responsive dashboard interface.
 
-⸻
+---
 
-Features
+# Features
 
-Authentication
+## Authentication
 
 - User registration
 - User login
@@ -17,7 +17,9 @@ Authentication
 - Logout functionality
 - Password hashing with bcrypt
 
-Project Management
+---
+
+## Project Management
 
 - Create projects
 - Update projects
@@ -26,14 +28,18 @@ Project Management
 - Search projects
 - Filter projects by status
 
-Dashboard
+---
+
+## Dashboard
 
 - Total projects statistics
 - Active projects count
 - On-hold projects count
 - Total budget calculation
 
-User Experience
+---
+
+## User Experience
 
 - Responsive UI
 - Form validation
@@ -42,11 +48,11 @@ User Experience
 - Loading states
 - Delete confirmation modal
 
-⸻
+---
 
-Tech Stack
+# Tech Stack
 
-Frontend
+## Frontend
 
 - React
 - React Router
@@ -55,7 +61,9 @@ Frontend
 - Tailwind CSS
 - React Icons
 
-Backend
+---
+
+## Backend
 
 - Node.js
 - Express.js
@@ -64,7 +72,9 @@ Backend
 - JWT Authentication
 - bcrypt
 
-DevOps
+---
+
+## DevOps
 
 - Docker
 - Docker Compose
