@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import {
   fetchProjects,
@@ -29,8 +29,6 @@ function useProjects() {
 
   const [loading, setLoading] = useState(false);
 
-  const [error, setError] = useState("");
-
   const showNotification = (message, type = "success") => {
     setNotification({
       message,
@@ -45,7 +43,7 @@ function useProjects() {
     }, 3000);
   };
 
-  const loadProjects = async () => {
+  const loadProjects = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -63,7 +61,7 @@ function useProjects() {
     } finally {
       setLoading(false);
     }
-  };
+  });
 
   useEffect(() => {
     loadProjects();
@@ -135,8 +133,6 @@ function useProjects() {
     projects,
 
     loading,
-
-    error,
 
     search,
 
