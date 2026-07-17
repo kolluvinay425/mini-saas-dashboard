@@ -425,7 +425,9 @@ DB_NAME=saas_dashboard
 DB_USER=admin
 DB_PASSWORD=password
 JWT_SECRET=my_super_secret_key
-FRONTEND_URL=http://localhost:3000```
+FRONTEND_URL=http://localhost:3000
+
+```
 
 Start backend:
 
