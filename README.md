@@ -417,35 +417,30 @@ touch .env
 
 Add:
 
-## Backend Environment Variables
-
 Create a `.env` file inside the `backend` folder:
 
-````env
-
+```env
 PORT=5000
-
 DB_HOST=localhost
-
 DB_PORT=5432
-
 DB_NAME=saas_dashboard
-
 DB_USER=admin
-
 DB_PASSWORD=password
-
 JWT_SECRET=my_super_secret_key
-
 FRONTEND_URL=http://localhost:3000
+```
 
 Start backend:
 
+```bash
 npm run server
+```
 
 Backend will run on:
 
+```text
 http://localhost:5000
+```
 
 ## Database Seeding
 
@@ -456,79 +451,44 @@ Run:
 ```bash
 cd backend
 npm run seed
+```
 
+---
 
-⸻
-
-Frontend Setup
+## Frontend Setup
 
 Open another terminal:
 
+```bash
 cd frontend
+```
 
 Install dependencies:
 
+```bash
 npm install
+```
 
 Create environment file:
 
+```bash
 touch .env
+```
 
 Add:
 
+```env
 REACT_APP_API_URL=http://localhost:5000/api
+```
 
 Start frontend:
 
+```bash
 npm start
+```
 
 Frontend will run on:
 
+```text
 http://localhost:3000
-
-⸻
-
-Running Both Services
-
-You should have three processes running:
-
-Terminal 1:
-
-cd backend
-npm run server
-
-Terminal 2:
-
-cd frontend
-npm start
-
-Terminal 3:
-
-PostgreSQL database running locally.
-
-⸻
-
-Development URLs
-
-Frontend:
-
-http://localhost:3000
-
-Backend:
-
-http://localhost:5000
-
-Database:
-
-localhost:5432
-
-Future Improvements if needed
-
-- Refresh token authentication
-- Role-based permissions
-- Automated tests
-- CI/CD pipeline
-- Production deployment
-- Nginx production frontend container
-- Cloud hosting setup
-````
+```
