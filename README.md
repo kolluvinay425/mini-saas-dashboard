@@ -104,9 +104,9 @@ mini-saas-dashboard/
 
 ⸻
 
-Running the Application with Docker
+# Running the Application with Docker
 
-Requirements
+## Requirements
 
 Install:
 
@@ -121,16 +121,19 @@ No need to install:
 
 Docker will run all services.
 
-⸻
+---
 
-Environment Configuration
+## Environment Configuration
 
 Create:
 
+```text
 backend/.env
+```
 
-Copy exact variables in .emv
+Add:
 
+```env
 PORT=5000
 DB_HOST=postgres
 DB_PORT=5432
@@ -139,80 +142,103 @@ DB_USER=admin
 DB_PASSWORD=password
 JWT_SECRET=my_super_secret_key
 FRONTEND_URL=http://localhost:3000
+```
 
 Create:
 
+```text
 frontend/.env
+```
 
-Copy exact variables in .emv
+Add:
 
+```env
 REACT_APP_API_URL=http://localhost:5000/api
+```
 
-⸻
+---
 
-Start Application
+## Start Application
 
 From the project root:
 
+```bash
 docker compose up --build
+```
 
 Docker starts:
 
-Service Container Port
-React Frontend mini-saas-frontend 3000
-Express Backend mini-saas-backend 5000
-PostgreSQL. Database mini-saas-postgres 5433
+| Service             | Container          | Port |
+| ------------------- | ------------------ | ---- |
+| React Frontend      | mini-saas-frontend | 3000 |
+| Express Backend     | mini-saas-backend  | 5000 |
+| PostgreSQL Database | mini-saas-postgres | 5433 |
 
-⸻
+---
 
 ## Database Seeding
 
-Start the containers:
+After starting the containers, run the seed command:
 
-after running the containers run seed command for sample data
-
+```bash
 docker exec -it mini-saas-backend npm run seed
+```
 
-Access Application
+This will add sample project data.
 
-⸻
+---
+
+## Access Application
 
 Frontend:
 
+```text
 http://localhost:3000
+```
 
 Backend:
 
+```text
 http://localhost:5000
+```
 
 Database:
 
+```text
 localhost:5433
+```
 
-⸻
+---
 
-Stop Application
+## Stop Application
 
 Stop containers:
 
+```bash
 docker compose down
+```
 
-⸻
+---
 
-Reset Database
+## Reset Database
 
 Remove containers and database data:
 
+```bash
 docker compose down -v
+```
 
 Start again:
 
+```bash
 docker compose up --build
+```
 
 ⸻
 
-Application Architecture
+# Application Architecture
 
+```text
                  Browser
                     |
                     |
@@ -226,194 +252,256 @@ Application Architecture
                     |
         PostgreSQL Database Container
                Port 5432
+```
 
 Docker Compose creates a private network between services.
 
 The backend connects to PostgreSQL using:
 
+```env
 DB_HOST=postgres
+```
 
-because containers communicate using service names.
+Containers communicate using service names instead of `localhost`.
 
-⸻
+---
 
-Authentication Flow
+# Authentication Flow
 
 1. User registers an account.
-2. Password is encrypted using bcrypt.
+2. Password is hashed using bcrypt.
 3. User logs in with email and password.
 4. Backend validates credentials.
 5. Backend generates a JWT token.
-6. Frontend stores: token and user information in local storage.
-7. Protected requests send:
+6. Frontend stores the token and user information in local storage.
+7. Protected API requests include:
 
+```http
 Authorization: Bearer <token>
+```
 
-⸻
+---
 
-API Endpoints
+# API Endpoints
 
-Authentication
+## Authentication
 
-Register
+### Register
 
+```http
 POST /api/auth/register
+```
 
 Request:
 
+```json
 {
-"name": "Admin",
-"email": "admin@example.com",
-"password": "password"
+  "name": "Admin",
+  "email": "admin@example.com",
+  "password": "password"
 }
+```
 
-⸻
+---
 
-Login
+### Login
 
+```http
 POST /api/auth/login
+```
 
 Request:
 
+```json
 {
-"email": "admin@example.com",
-"password": "password"
+  "email": "admin@example.com",
+  "password": "password"
 }
+```
 
 Response:
 
+```json
 {
-"token": "jwt_token",
-"user": {
-"id": 1,
-"name": "Admin",
-"email": "admin@example.com"
+  "token": "jwt_token",
+  "user": {
+    "id": 1,
+    "name": "Admin",
+    "email": "admin@example.com"
+  }
 }
-}
+```
 
-⸻
+---
 
-Project API
+# Project API
 
 All project routes require JWT authentication.
 
 Header:
 
+```http
 Authorization: Bearer TOKEN
+```
 
-⸻
+---
 
-Get Projects
+## Get Projects
 
+```http
 GET /api/projects
+```
 
-⸻
+---
 
-Create Project
+## Create Project
 
+```http
 POST /api/projects
+```
 
 Example:
 
+```json
 {
-"name": "Website Redesign",
-"description": "New company website",
-"status": "ACTIVE",
-"budget": 5000
+  "name": "Website Redesign",
+  "description": "New company website",
+  "status": "ACTIVE",
+  "budget": 5000
 }
+```
 
-⸻
+---
 
-Update Project
+## Update Project
 
+```http
 PUT /api/projects/:id
+```
 
-⸻
+---
 
-Delete Project
+## Delete Project
 
+```http
 DELETE /api/projects/:id
+```
 
-⸻
+---
 
-Useful Docker Commands
+# Useful Docker Commands
 
-View containers:
+View running containers:
 
+```bash
 docker ps
+```
 
-View logs:
+View backend logs:
 
+```bash
 docker compose logs backend
+```
 
 View all logs:
 
+```bash
 docker compose logs
+```
 
 Rebuild images:
 
+```bash
 docker compose build
+```
 
 Restart services:
 
+```bash
 docker compose restart
+```
 
-⸻
+---
 
-Development Workflow
+# Development Workflow
 
-The complete application can be started using:
+Start the complete application:
 
+```bash
 docker compose up --build
+```
 
-This starts the frontend, backend, and database without requiring local installations.
+This starts:
 
-⸻
+- React frontend
+- Express backend
+- PostgreSQL database
 
-Running Without Docker
+No local Node.js or PostgreSQL installation is required when using Docker.
 
-If you prefer to run the application locally, install the required dependencies first.
+---
 
-Requirements
+# Running Without Docker
+
+If you prefer running the application locally, install the required dependencies first.
+
+## Requirements
 
 Install:
 
-- Node.js (v18 or higher)(used node v20.18.3 for this project)
+- Node.js v18 or higher  
+  (Project developed using Node.js v20.18.3)
+
 - npm
-- PostgreSQL (v16 recommended)(i used 17.5)
 
-⸻
+- PostgreSQL v16 or higher  
+  (Project tested with PostgreSQL v17.5)
 
-Database Setup
+---
+
+# Database Setup
 
 1. Start PostgreSQL locally.
-2. Create a database:
 
+2. Create database:
+
+```sql
 CREATE DATABASE saas_dashboard;
+```
 
-3. Create a database user:
+3. Create database user:
 
+```sql
 CREATE USER admin WITH PASSWORD 'password';
+```
 
 4. Grant permissions:
 
+```sql
 GRANT ALL PRIVILEGES ON DATABASE saas_dashboard TO admin;
+```
 
-⸻
+---
 
-Backend Setup
+# Backend Setup
 
 Open a terminal:
 
+```bash
 cd backend
+```
 
 Install dependencies:
 
+```bash
 npm install
+```
 
 Create environment file:
 
+```bash
 touch .env
+```
 
 Add:
 
