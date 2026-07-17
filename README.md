@@ -417,6 +417,7 @@ touch .env
 
 Add:
 
+````text
 PORT=5000
 DB_HOST=localhost
 DB_PORT=5432
@@ -424,7 +425,7 @@ DB_NAME=saas_dashboard
 DB_USER=admin
 DB_PASSWORD=password
 JWT_SECRET=my_super_secret_key
-FRONTEND_URL=http://localhost:3000
+FRONTEND_URL=http://localhost:3000```
 
 Start backend:
 
@@ -518,4 +519,4 @@ Future Improvements if needed
 - Production deployment
 - Nginx production frontend container
 - Cloud hosting setup
-```
+````
