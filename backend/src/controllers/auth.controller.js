@@ -18,7 +18,7 @@ export const register = async (req, res) => {
         message: "Email already exists",
       });
     }
-
+    // Hash password before storing it to avoid saving plain-text passwords.
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
@@ -60,7 +60,7 @@ export const login = async (req, res) => {
         message: "Invalid credentials",
       });
     }
-
+    // Compare the entered password with the hashed password stored in the database.
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
@@ -69,6 +69,7 @@ export const login = async (req, res) => {
       });
     }
 
+    // Generate JWT token used for authenticating protected API routes.
     const token = jwt.sign(
       {
         id: user.id,

@@ -18,8 +18,10 @@ const authMiddleware = (req, res, next) => {
       });
     }
 
+    // Verify JWT signature and check token expiration before allowing access.
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+    // Store authenticated user data for use in protected routes.
     req.user = decoded;
 
     next();

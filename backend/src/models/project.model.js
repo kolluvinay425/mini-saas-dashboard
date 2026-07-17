@@ -9,12 +9,13 @@ const Project = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-
+    // Project name
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
 
+    // Restrict project status values to maintain consistent workflow states.
     status: {
       type: DataTypes.ENUM("ACTIVE", "ON_HOLD", "COMPLETED"),
       allowNull: false,

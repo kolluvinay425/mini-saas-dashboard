@@ -87,6 +87,7 @@ const seedProjects = async () => {
   try {
     await sequelize.authenticate();
 
+    // Clear existing project records before inserting fresh seed data.
     await Project.destroy({
       where: {},
       truncate: true,

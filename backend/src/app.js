@@ -7,9 +7,13 @@ import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
 
+// Enable Cross-Origin Resource Sharing
 app.use(cors());
+// Adds common HTTP security headers.
 app.use(helmet());
+// Logs HTTP requests in development format
 app.use(morgan("dev"));
+// Parse JSON request bodies
 app.use(express.json());
 
 app.use("/api/projects", projectRoutes);

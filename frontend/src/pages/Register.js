@@ -25,6 +25,7 @@ function Register() {
     setSuccess("");
 
     try {
+      // Create a new user account and redirect to login after successful registration
       await registerUser(data);
 
       setSuccess("Account created successfully");

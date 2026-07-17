@@ -22,6 +22,7 @@ const User = sequelize.define(
     },
 
     password: {
+      // Stores hashed password, never plain-text user passwords.
       type: DataTypes.STRING,
       allowNull: false,
     },

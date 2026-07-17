@@ -10,6 +10,7 @@ export const getProjects = async ({ status, search }) => {
 
   if (search) {
     where.name = {
+      // PostgreSQL case-insensitive search.
       [Op.iLike]: `%${search}%`,
     };
   }

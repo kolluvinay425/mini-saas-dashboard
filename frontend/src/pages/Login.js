@@ -27,6 +27,7 @@ function Login() {
     try {
       const response = await loginUser(data);
 
+      // Authenticate user and store JWT token with user data in auth context
       login(response.user, response.token);
 
       navigate("/dashboard");
