@@ -71,36 +71,36 @@ DevOps
 
 ⸻
 
-Project Structure
+## Project Structure
 
+```text
 mini-saas-dashboard/
 ├── backend/
-│ ├── src/
-│ │ ├── controllers/
-│ │ ├── middleware/
-│ │ ├── models/
-│ │ ├── routes/
-│ │ ├── config/
-│ │ └── server.js
-│ │
-│ ├── Dockerfile
-│ ├── package.json
-│ └── .env
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── config/
+│   │   └── server.js
+│   ├── Dockerfile
+│   ├── package.json
+│   └── .env
 │
 ├── frontend/
-│ ├── src/
-│ │ ├── api/
-│ │ ├── components/
-│ │ ├── hooks/
-│ │ ├── pages/
-│ │ └── routes/
-│ │
-│ ├── Dockerfile
-│ ├── package.json
-│ └── .env
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── pages/
+│   │   └── routes/
+│   ├── Dockerfile
+│   ├── package.json
+│   └── .env
 │
 ├── docker-compose.yml
 └── README.md
+```
 
 ⸻
 
